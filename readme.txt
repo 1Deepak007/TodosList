@@ -12,7 +12,7 @@ CREATE ROUTES : in server.js    (rest api)
 --> once all apis of server.js are working create frontend & connect with backend
 
 TodosList\frontend> npx create-react-app frontend
-
+create frontend code, UI and Posting data to server
 
 
 RUN CODE :
