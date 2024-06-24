@@ -1,13 +1,12 @@
 const pool = require("../db");
 
 // Create todo
-// http://localhost:7700/todos           // body -> { "description":"Buy Earth"}
 const createTodo = async (req, res) => {
     try {
-        const { description } = req.body;
+        const { description, status } = req.body;
         const newTodo = await pool.query(
-            "INSERT INTO todo (description) VALUES ($1) RETURNING *",
-            [description]
+            "INSERT INTO todo (description, status) VALUES ($1, $2) RETURNING *",
+            [description, status]
         );
         res.json(newTodo.rows[0]);
     } catch (err) {
@@ -16,7 +15,6 @@ const createTodo = async (req, res) => {
 };
 
 // Get all todos
-// http://localhost:7700/todos
 const getAllTodos = async (req, res) => {
     try {
         const allTodos = await pool.query("SELECT * FROM todo");
@@ -27,28 +25,24 @@ const getAllTodos = async (req, res) => {
 };
 
 // Get todo by id
-// http://localhost:7700/todos/10
 const getTodoById = async (req, res) => {
     try {
         const { id } = req.params;
         const todo = await pool.query("SELECT * FROM todo WHERE todo_id = $1", [id]);
         res.json(todo.rows[0]);
-        console.log(todo.rows[0]);
     } catch (err) {
         console.error(err.message);
     }
 };
 
 // Update the todo
-// http://localhost:7700/todos/13       -> { "description":"Solar System" }
-
 const updateTodo = async (req, res) => {
     try {
         const { id } = req.params;
-        const { description } = req.body;
+        const { description, status } = req.body;
         await pool.query(
-            "UPDATE todo SET description = $1 WHERE todo_id = $2",
-            [description, id]
+            "UPDATE todo SET description = $1, status = $2 WHERE todo_id = $3",
+            [description, status, id]
         );
         res.json("Todo was updated successfully");
     } catch (err) {
@@ -57,7 +51,6 @@ const updateTodo = async (req, res) => {
 };
 
 // Delete todo
-// http://localhost:7700/todos/13
 const deleteTodo = async (req, res) => {
     const { id } = req.params;
     try {
@@ -75,7 +68,6 @@ module.exports = {
     updateTodo,
     deleteTodo
 };
-
 
 
 
