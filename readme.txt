@@ -1,4 +1,5 @@
 ===============> POSTGRE RESTAPI <=================
+REACT,NODE,EXPRESS,POSTGRESQL
 
 TodosList\backend>  npm init ,  npm i express pg cors nodemon
 create file  ->  database.sql (for schemas of table)
